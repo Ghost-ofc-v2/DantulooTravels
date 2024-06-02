@@ -37,6 +37,8 @@ public class Usuario  implements UserDetails {
     private Long dni;
     private String sexo;
 
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Conductor conductor;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -8,7 +8,7 @@ import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes.Viajes
 @Getter
 @Setter
 @Entity
-@Table(name = "conductor", uniqueConstraints = {@UniqueConstraint(columnNames = {"dni"})})
+@Table(name = "conductor")
 public class Conductor{
 
     @Id
@@ -23,6 +23,12 @@ public class Conductor{
     @Column(name = "color_auto")
     String colorAuto;
     Double calificacionPromedio;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "viaje_id")

@@ -5,6 +5,7 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.EmailDTO.EmailDTO;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.usuarioDTO.DatosRegistroUsuario;
+import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Conductor;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Rol;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Usuario;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.mappers.LoginRequest;
@@ -76,6 +77,11 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new IllegalArgumentException("El correo ya está en uso: " + datos.correo());
         }
 
+        Optional<Usuario> dniexistente = usuarioRepository.findByDni(datos.dni());
+        if (dniexistente.isPresent()) {
+            throw new IllegalArgumentException("El DNI ya está registrado: " + datos.dni());
+        }
+
         if(datos.contrasena().length() < 8){
             throw new IllegalArgumentException("Contraseña invalida: " + datos.contrasena());
         }
@@ -92,20 +98,20 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setContrasena(passwordEncoder.encode(datos.contrasena()));
         usuario.setTelefono(datos.telefono());
         usuario.setFecha_nacimiento(datos.fecha_nacimiento());
-        Rol role = datos.role();
+        usuario.setRole(datos.role());
 
-
-
-
-        if(role == Rol.CLIENTE || role == Rol.CONDUCTOR){
-            usuario.setRole(role);
-        }else{
-            throw new IllegalArgumentException("Rol no valido");
+        // Si el rol es Conductor, también crea un conductor asociado
+        if (datos.role() == Rol.CONDUCTOR) {
+            Conductor conductor = new Conductor();
+            conductor.setCalificacionPromedio(1.0);
+            conductor.setUsuario(usuario);
+            usuario.setConductor(conductor);
         }
+
 
         usuarioRepository.save(usuario);
 
-        return  "Usuario Guardado con exito: " + usuario.getNombre();
+        return "Usuario guardado con éxito: " + usuario.getNombre();
 
     }
 
