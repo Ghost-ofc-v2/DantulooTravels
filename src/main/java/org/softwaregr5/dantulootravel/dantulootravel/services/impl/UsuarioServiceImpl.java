@@ -79,6 +79,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         if(datos.contrasena().length() < 8){
             throw new IllegalArgumentException("Contraseña invalida: " + datos.contrasena());
         }
+
+        if (datos.dni() == null || !datos.dni().toString().matches("\\d{8}")) {
+            throw new IllegalArgumentException("El DNI debe contener exactamente 8 dígitos numéricos.");
+        }
+
         Usuario usuario = new Usuario();
         usuario.setNombre(datos.nombre());
         usuario.setCorreo(datos.correo());
