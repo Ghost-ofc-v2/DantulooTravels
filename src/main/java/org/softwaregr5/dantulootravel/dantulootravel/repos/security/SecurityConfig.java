@@ -39,16 +39,6 @@ public class SecurityConfig {
         logger.debug("SecurityConfig initialized.");
         // We don't need CSRF for this example
 
-        httpSecurity.cors(cors -> cors.configurationSource(request -> {
-            CorsConfiguration configuration = new CorsConfiguration();
-            configuration.setAllowedOrigins(Arrays.asList("*"));
-            configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
-            configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-            configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
-            configuration.setAllowCredentials(true);
-            return configuration;
-        }));
-
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((it) ->
                         // don't authenticate this particular request
