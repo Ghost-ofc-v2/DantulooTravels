@@ -30,6 +30,7 @@ import org.thymeleaf.context.Context;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -52,14 +53,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     public LoginResponse loginusuario(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
+                        loginRequest.getEmail(),
                         loginRequest.getPassword()
                 )
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        Usuario user = usuarioRepository.findByUsuario(loginRequest.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: "+ loginRequest.getUsername())) ;
+        Usuario user = usuarioRepository.findByCorreo(loginRequest.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("Correo no encontrado: "+ loginRequest.getEmail())) ;
 
         String token = jwtTokenUtil.generateToken(user);
         String encryptedToken = EncryptionUtil.encrypt(token);
@@ -69,14 +70,27 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public String guardarUsuario(DatosRegistroUsuario datos){
+
+        Optional<Usuario> usuarioExistente = usuarioRepository.findByCorreo(datos.correo());
+        if (usuarioExistente.isPresent()) {
+            throw new IllegalArgumentException("El correo ya está en uso: " + datos.correo());
+        }
+
+        if(datos.contrasena().length() < 8){
+            throw new IllegalArgumentException("Contraseña invalida: " + datos.contrasena());
+        }
         Usuario usuario = new Usuario();
-        usuario.setUsuario(datos.usuario());
         usuario.setNombre(datos.nombre());
         usuario.setCorreo(datos.correo());
+        usuario.setDni(datos.dni());
+        usuario.setSexo(datos.sexo());
         usuario.setContrasena(passwordEncoder.encode(datos.contrasena()));
         usuario.setTelefono(datos.telefono());
         usuario.setFecha_nacimiento(datos.fecha_nacimiento());
         Rol role = datos.role();
+
+
+
 
         if(role == Rol.CLIENTE || role == Rol.CONDUCTOR){
             usuario.setRole(role);
@@ -117,26 +131,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void cambiarContrasena(String email, String newPassword){
-        List<Usuario> usuarios = usuarioRepository.findByCorreo(email);
+        Usuario usuario = usuarioRepository.findByCorreo(email)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + email));
 
-        if(usuarios.isEmpty()){
-            throw new IllegalArgumentException("Usuario no encontrado: " + email);
-        }
-        Usuario usuario = usuarios.get(0);
         usuario.setContrasena(passwordEncoder.encode(newPassword));
         usuarioRepository.save(usuario);
-
     }
 
-    public boolean esImagenBase64Valida(String base64Str) {
-        if (base64Str.startsWith("data:image/")) {
-            String[] parts = base64Str.split(",");
-            if (parts.length == 2 && Base64.isBase64(parts[1].getBytes(StandardCharsets.UTF_8))) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 
 

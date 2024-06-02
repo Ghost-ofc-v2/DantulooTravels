@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @Entity(name = "Usuario")
-@Table(name = "usuario", uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario"})})
+@Table(name = "usuario", uniqueConstraints = {@UniqueConstraint(columnNames = {"correo", "dni"})})
 @Getter
 @Setter
 @Builder
@@ -25,7 +25,6 @@ public class Usuario  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_usuario;
-    private String usuario;
     private String contrasena;
     @Column(unique = true)
     private String correo;
@@ -35,8 +34,8 @@ public class Usuario  implements UserDetails {
     @Column(unique = true)
     private String telefono;
     private Date fecha_nacimiento;
-
-    private String imagenPerfil;
+    private Long dni;
+    private String sexo;
 
 
     @Override
@@ -46,7 +45,7 @@ public class Usuario  implements UserDetails {
 
     @Override
     public String getUsername() {
-        return usuario;
+        return correo;
     }
     @Override
     public String getPassword() {

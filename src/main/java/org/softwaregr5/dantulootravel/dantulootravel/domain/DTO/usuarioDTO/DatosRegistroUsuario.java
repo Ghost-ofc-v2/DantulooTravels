@@ -14,8 +14,9 @@ public record DatosRegistroUsuario(
         @NotNull  Date fecha_nacimiento,
         @NotNull @Size(min = 0, max = 9) String telefono,
         @NotBlank @Email @Length(max = 100) String correo,
-        @NotBlank @Length(max = 100) String usuario,
         @NotBlank @Length(max = 100) String contrasena,
+        @NotNull Long dni,
+        @NotNull String sexo,
         @NotNull Rol role
 ){
 }

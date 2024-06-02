@@ -1,7 +1,6 @@
 package org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes.Viajes;
@@ -15,11 +14,14 @@ public class Conductor{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long idConductor;
-    Long dni;
+    @Column(name = "marca_auto")
     String marcaAuto;
+    @Column(name = "modelo_auto")
     String modeloAuto;
+    @Column(name = "placa_auto")
     String placaAuto;
-    String color;
+    @Column(name = "color_auto")
+    String colorAuto;
     Double calificacionPromedio;
 
     @OneToOne(cascade = CascadeType.ALL)
