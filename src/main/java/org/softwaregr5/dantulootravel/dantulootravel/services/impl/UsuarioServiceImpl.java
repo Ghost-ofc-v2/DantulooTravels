@@ -72,7 +72,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public String guardarUsuario(DatosRegistroUsuario datos){
 
-        if (datos.role() != Rol.CONDUCTOR && datos.role() != Rol.CLIENTE){
+        if (datos.role() != Rol.CONDUCTOR && datos.role() != Rol.PASAJERO){
             throw new IllegalArgumentException("Rol no valido: " + datos.role());
         }
 
