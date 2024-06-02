@@ -75,6 +75,15 @@ public class JwtTokenUtil implements Serializable {
         return (!isTokenExpired(token) && userName.equals(userDetails.getUsername()));
     }
 
+    public String getEmailToken2(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
+        System.out.println(claims);
+        return claims.get("sub", String.class);
+    }
+
     public String getUserNameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }

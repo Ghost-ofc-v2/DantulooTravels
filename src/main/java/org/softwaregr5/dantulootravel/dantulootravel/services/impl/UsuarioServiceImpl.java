@@ -16,6 +16,7 @@ import org.softwaregr5.dantulootravel.dantulootravel.repos.security.JwtTokenUtil
 import org.softwaregr5.dantulootravel.dantulootravel.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,8 +48,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final JavaMailSender mailSender;
 
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+
 
     @Override
     public LoginResponse loginusuario(LoginRequest loginRequest) {
@@ -72,10 +72,17 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public String guardarUsuario(DatosRegistroUsuario datos){
 
+        if (datos.role() != Rol.CONDUCTOR && datos.role() != Rol.CLIENTE){
+            throw new IllegalArgumentException("Rol no valido: " + datos.role());
+        }
+
         Optional<Usuario> usuarioExistente = usuarioRepository.findByCorreo(datos.correo());
         if (usuarioExistente.isPresent()) {
             throw new IllegalArgumentException("El correo ya está en uso: " + datos.correo());
         }
+
+
+
 
         Optional<Usuario> dniexistente = usuarioRepository.findByDni(datos.dni());
         if (dniexistente.isPresent()) {
@@ -107,7 +114,6 @@ public class UsuarioServiceImpl implements UsuarioService {
             conductor.setUsuario(usuario);
             usuario.setConductor(conductor);
         }
-
 
         usuarioRepository.save(usuario);
 

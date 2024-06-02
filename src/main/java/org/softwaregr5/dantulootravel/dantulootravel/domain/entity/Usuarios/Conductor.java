@@ -24,14 +24,13 @@ public class Conductor{
     String colorAuto;
     Double calificacionPromedio;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "usuario_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
     private Usuario usuario;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "viaje_id")
+    @OneToOne
+    @JoinColumn(name = "viaje_id", referencedColumnName = "id_viajes")
     private Viajes viaje;
 
 

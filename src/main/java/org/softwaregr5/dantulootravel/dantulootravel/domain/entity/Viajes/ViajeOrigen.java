@@ -21,4 +21,7 @@ public class ViajeOrigen {
     private String direccionorigen;
     private String latitudorigen;
     private String longitudorigen;
+
+    @OneToOne(mappedBy = "viajeOrigen", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Viajes viaje;
 }

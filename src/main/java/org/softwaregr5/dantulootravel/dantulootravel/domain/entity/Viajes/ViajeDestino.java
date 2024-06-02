@@ -22,7 +22,6 @@ public class ViajeDestino {
     private String latituddestino;
     private String longituddestino;
 
-    @OneToOne
-    @JoinColumn(name = "viaje_id")
+    @OneToOne(mappedBy = "viajeDestino", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Viajes viaje;
 }
