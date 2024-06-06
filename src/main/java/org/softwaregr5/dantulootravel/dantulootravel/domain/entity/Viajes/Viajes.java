@@ -1,10 +1,12 @@
 package org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Reservas.Reserva;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Conductor;
 
 import java.time.LocalDateTime;
@@ -25,22 +27,41 @@ public class Viajes {
     @Column(name = "fecha_hora_llegada")
     private LocalDateTime fechaHoraLlegada;
     private Float costoViaje;
-    private Integer pasajeros;
+    private Integer totalAsientos;
+    @Column(columnDefinition = "INT DEFAULT 0")
+    private Integer asientosReservados;
+    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private Boolean disponible;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "conductor_id")
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "conductor_id", referencedColumnName = "idConductor")
     @JsonBackReference
     private Conductor conductor;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "detalleviajeorigen_id")
-
     private ViajeOrigen viajeOrigen;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "detalleviajedestino_id")
-
     private ViajeDestino viajeDestino;
+
+    @OneToMany(mappedBy = "viajes")
+    @JsonBackReference
+    private List<Reserva> reservas;
+
+
+    public boolean reservarAsientos(int numeroAsientos) {
+        if (this.disponible && (this.asientosReservados + numeroAsientos <= this.totalAsientos)) {
+            this.asientosReservados += numeroAsientos;
+            if (this.asientosReservados == this.totalAsientos) {
+                this.disponible = false;
+            }
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public String toString() {
@@ -49,7 +70,9 @@ public class Viajes {
                 ", fechaHoraSalida=" + fechaHoraSalida +
                 ", fechaHoraLlegada=" + fechaHoraLlegada +
                 ", costoViaje=" + costoViaje +
-                ", pasajeros=" + pasajeros +
+                ", totalAsientos=" + totalAsientos +
+                ", asientosReservados=" + asientosReservados +
+                ", disponible=" + disponible +
                 ", viajeOrigen=" + viajeOrigen +
                 ", viajeDestino=" + viajeDestino +
                 '}';

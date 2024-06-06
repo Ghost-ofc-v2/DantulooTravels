@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.EmailDTO.EmailDTO;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.usuarioDTO.DatosRegistroUsuario;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Conductor;
+import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Pasajero;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Rol;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Usuario;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.mappers.LoginRequest;
@@ -114,6 +115,11 @@ public class UsuarioServiceImpl implements UsuarioService {
             conductor.setUsuario(usuario);
             usuario.setConductor(conductor);
         }
+        if (datos.role() == Rol.PASAJERO) {
+            Pasajero pasajero = new Pasajero();
+            pasajero.setUsuario(usuario);
+            usuario.setPasajero(pasajero);
+        }
 
         usuarioRepository.save(usuario);
 
@@ -154,7 +160,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setContrasena(passwordEncoder.encode(newPassword));
         usuarioRepository.save(usuario);
     }
-
 
 
 

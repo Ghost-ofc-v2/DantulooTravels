@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ViajesController {
 
-    @Autowired
+
     private ViajesRepository viajesRepository;
     private ViajeOrigenService viajeOrigenService;
     private ViajeService viajeService;
@@ -78,7 +78,6 @@ public class ViajesController {
     @PostMapping("/buscar-viaje")
     public ResponseEntity<?> buscarviaje(@RequestBody @Valid BuscarViajeOrigen buscarViajeOrigen) {
         List<Viajes> viajes = viajeOrigenService.buscarViajeOrigen(buscarViajeOrigen);
-        System.out.println(viajes);
         return ResponseEntity.ok(viajes);
     }
 }

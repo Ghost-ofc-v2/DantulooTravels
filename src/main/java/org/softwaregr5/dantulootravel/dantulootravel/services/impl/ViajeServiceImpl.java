@@ -1,6 +1,5 @@
 package org.softwaregr5.dantulootravel.dantulootravel.services.impl;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.viajeDTO.PublicarViaje1;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.viajeDTO.PublicarViaje2;
@@ -16,7 +15,6 @@ import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Viajes.Via
 import org.softwaregr5.dantulootravel.dantulootravel.repos.security.JwtTokenUtil;
 import org.softwaregr5.dantulootravel.dantulootravel.services.ViajeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -43,12 +41,14 @@ public class ViajeServiceImpl implements ViajeService {
             }
 
             Conductor conductor = user.getConductor();
-            System.out.println(user.getConductor());
             if (conductor == null) {
                 throw new IllegalStateException("No hay un conductor asociado a este usuario.");
             }
 
             Viajes viajes = new Viajes();
+
+            viajes.setAsientosReservados(0);
+            viajes.setDisponible(Boolean.TRUE);
 
             ViajeOrigen viajeOrigen = new ViajeOrigen();
             viajeOrigen.setDireccionorigen(publicarViaje1.getDireccionorigen());
@@ -70,7 +70,7 @@ public class ViajeServiceImpl implements ViajeService {
 
             viajes.setFechaHoraSalida(publicarViaje1.getFechaHoraSalida());
             viajes.setCostoViaje(publicarViaje1.getPrecio());
-            viajes.setPasajeros(publicarViaje1.getPasajeros());
+            viajes.setTotalAsientos(publicarViaje1.getPasajeros());
 
             viajes.setConductor(conductor);
             viajesRepository.save(viajes);

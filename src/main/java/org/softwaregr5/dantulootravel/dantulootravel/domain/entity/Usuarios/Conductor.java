@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes.Viajes;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -31,10 +33,9 @@ public class Conductor{
     private Usuario usuario;
 
 
-    @OneToOne
-    @JoinColumn(name = "viaje_id", referencedColumnName = "id_viajes")
+    @OneToMany(mappedBy = "conductor")
     @JsonBackReference
-    private Viajes viaje;
+    private List<Viajes> viaje;
 
 
 }
