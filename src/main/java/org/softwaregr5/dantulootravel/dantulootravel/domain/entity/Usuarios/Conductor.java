@@ -1,5 +1,6 @@
 package org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,11 +27,13 @@ public class Conductor{
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
+    @JsonBackReference
     private Usuario usuario;
 
 
     @OneToOne
     @JoinColumn(name = "viaje_id", referencedColumnName = "id_viajes")
+    @JsonBackReference
     private Viajes viaje;
 
 

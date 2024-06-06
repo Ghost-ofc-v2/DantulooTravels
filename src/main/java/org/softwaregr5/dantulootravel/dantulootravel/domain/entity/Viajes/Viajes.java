@@ -1,5 +1,6 @@
 package org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -19,7 +20,6 @@ public class Viajes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_viajes;
 
-    private String ciudad;
     @Column(name = "fecha_hora_salida")
     private LocalDateTime fechaHoraSalida;
     @Column(name = "fecha_hora_llegada")
@@ -29,14 +29,30 @@ public class Viajes {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "conductor_id")
+    @JsonBackReference
     private Conductor conductor;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "detalleviajeorigen_id")
+
     private ViajeOrigen viajeOrigen;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "detalleviajedestino_id")
+
     private ViajeDestino viajeDestino;
+
+    @Override
+    public String toString() {
+        return "Viajes{" +
+                "id_viajes=" + id_viajes +
+                ", fechaHoraSalida=" + fechaHoraSalida +
+                ", fechaHoraLlegada=" + fechaHoraLlegada +
+                ", costoViaje=" + costoViaje +
+                ", pasajeros=" + pasajeros +
+                ", viajeOrigen=" + viajeOrigen +
+                ", viajeDestino=" + viajeDestino +
+                '}';
+    }
 
 }

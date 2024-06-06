@@ -3,15 +3,22 @@ package org.softwaregr5.dantulootravel.dantulootravel.controllers;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.viajeDTO.BuscarViajeOrigen;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.viajeDTO.PublicarViaje1;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.viajeDTO.PublicarViaje2;
+import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes.ViajeOrigen;
+import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes.Viajes;
+import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Viajes.ViajeOrigenRepository;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Viajes.ViajesRepository;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.security.EncryptionUtil;
+import org.softwaregr5.dantulootravel.dantulootravel.services.ViajeOrigenService;
 import org.softwaregr5.dantulootravel.dantulootravel.services.ViajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/viajes")
@@ -21,13 +28,16 @@ public class ViajesController {
 
     @Autowired
     private ViajesRepository viajesRepository;
-
+    private ViajeOrigenService viajeOrigenService;
     private ViajeService viajeService;
+    private ViajeOrigenRepository viajeOrigenRepository;
 
     @Autowired
-    public ViajesController(ViajesRepository viajesRepository, ViajeService viajeService) {
+    public ViajesController(ViajesRepository viajesRepository, ViajeService viajeService, ViajeOrigenService viajeOrigenService, ViajeOrigenRepository viajeOrigenRepository) {
         this.viajesRepository = viajesRepository;
         this.viajeService = viajeService;
+        this.viajeOrigenService = viajeOrigenService;
+        this.viajeOrigenRepository = viajeOrigenRepository;
     }
 
     @PostMapping("/publicar-viaje")
@@ -63,5 +73,12 @@ public class ViajesController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+    }
+
+    @PostMapping("/buscar-viaje")
+    public ResponseEntity<?> buscarviaje(@RequestBody @Valid BuscarViajeOrigen buscarViajeOrigen) {
+        List<Viajes> viajes = viajeOrigenService.buscarViajeOrigen(buscarViajeOrigen);
+        System.out.println(viajes);
+        return ResponseEntity.ok(viajes);
     }
 }

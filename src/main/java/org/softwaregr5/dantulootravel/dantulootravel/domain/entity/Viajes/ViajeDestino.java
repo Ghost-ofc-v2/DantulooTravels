@@ -1,5 +1,6 @@
 package org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -19,9 +20,23 @@ public class ViajeDestino {
     private String ciudaddestino;
     private String provinciadestino;
     private String direcciondestino;
+    private String distritodestino;
     private String latituddestino;
     private String longituddestino;
 
+
     @OneToOne(mappedBy = "viajeDestino", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     private Viajes viaje;
+
+    @Override
+    public String toString() {
+        return "ViajeDestino{" +
+                "idviajedestino=" + idviajedestino +
+                ", distritodestino='" + distritodestino + '\'' +
+                ", latituddestino=" + latituddestino +
+                ", longituddestino=" + longituddestino +
+                // No incluir 'viaje' para evitar recursión
+                '}';
+    }
 }

@@ -1,6 +1,7 @@
 package org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import jakarta.persistence.*;
@@ -38,6 +39,7 @@ public class Usuario  implements UserDetails {
     private String sexo;
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     private Conductor conductor;
 
     @Override
