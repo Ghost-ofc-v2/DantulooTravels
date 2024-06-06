@@ -6,6 +6,8 @@ import lombok.*;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Pasajero;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes.Viajes;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "reserva")
 @Getter
@@ -27,6 +29,8 @@ public class Reserva {
     private Viajes viajes;
 
     private Integer cantidadAsientos;
-
+    private String estado;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaReserva = new Date();
 
 }

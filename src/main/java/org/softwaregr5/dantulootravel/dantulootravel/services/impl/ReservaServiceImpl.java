@@ -7,11 +7,12 @@ import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes.Viajes
 import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Reservas.ReservasRepository;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Usuarios.PasajeroRepository;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Viajes.ViajesRepository;
+import org.softwaregr5.dantulootravel.dantulootravel.services.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReservaService {
+public class ReservaServiceImpl implements ReservaService {
 
     @Autowired
     private ViajesRepository viajesRepository;
@@ -23,6 +24,7 @@ public class ReservaService {
     private PasajeroRepository pasajeroRepository;
 
 
+    @Override
     public String crearReserva(ReservarAsiento reservarAsiento) {
 
 
@@ -36,7 +38,17 @@ public class ReservaService {
         reserva.setPasajero(pasajero);
         reserva.setViajes(viaje);
         reserva.setCantidadAsientos(reservarAsiento.getAsientosReservados());
+        reserva.setEstado("PENDIENTE");
         reservaRepository.save(reserva);
         return "Reserva creada con éxito.";
+    }
+
+    @Override
+    public String actualizarEstadoReserva(Long reservaId, String estado) {
+        Reserva reserva = reservaRepository.findById(reservaId)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+        reserva.setEstado(estado);
+        reservaRepository.save(reserva);
+        return "Estado de la reserva actualizado a " + estado;
     }
 }
