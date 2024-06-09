@@ -68,9 +68,7 @@ public class ViajeServiceImpl implements ViajeService {
             viajes.setViajeOrigen(viajeOrigen);
             viajes.setViajeDestino(viajeDestino);
 
-            viajes.setFechaHoraSalida(publicarViaje1.getFechaHoraSalida());
-            viajes.setCostoViaje(publicarViaje1.getPrecio());
-            viajes.setTotalAsientos(publicarViaje1.getPasajeros());
+
 
             viajes.setConductor(conductor);
             viajesRepository.save(viajes);
@@ -108,6 +106,10 @@ public class ViajeServiceImpl implements ViajeService {
             conductor.setModeloAuto(publicarViaje2.getModeloAuto());
             conductor.setPlacaAuto(publicarViaje2.getPlacaAuto());
             conductor.setColorAuto(publicarViaje2.getColorAuto());
+
+            viajes.setFechaHoraSalida(publicarViaje2.getFechaHoraSalida());
+            viajes.setCostoViaje(publicarViaje2.getPrecio());
+            viajes.setTotalAsientos(publicarViaje2.getPasajeros());
             conductorRepository.save(conductor);
 
             return "Detalles del conductor actualizados y viaje actualizado exitosamente para el viaje ID: " + viajeId;

@@ -22,9 +22,7 @@ public class PublicarViaje1 {
     private String direccionorigen;
     private String distritoorigen;
 
-    private Integer pasajeros;
-    private Float precio;
-    private LocalDateTime fechaHoraSalida;
+
 
 
 
