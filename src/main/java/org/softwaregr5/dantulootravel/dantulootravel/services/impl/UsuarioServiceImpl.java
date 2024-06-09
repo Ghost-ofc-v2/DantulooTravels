@@ -66,7 +66,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         String token = jwtTokenUtil.generateToken(user);
         String encryptedToken = EncryptionUtil.encrypt(token);
-        return new LoginResponse(encryptedToken);
+
+        Rol role = user.getRole();
+
+
+        return new LoginResponse(encryptedToken, role);
     }
 
 
