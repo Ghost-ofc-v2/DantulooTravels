@@ -54,7 +54,7 @@ public class ViajeServiceImpl implements ViajeService {
             viajeOrigen.setDireccionorigen(publicarViaje1.getDireccionorigen());
             viajeOrigen.setCiudadorigen(publicarViaje1.getCiudadorigen());
             viajeOrigen.setDepartamentoorigen(publicarViaje1.getDepartamentoorigen());
-            viajeOrigen.setPaisorigen(publicarViaje1.getDistritoorigen());
+
 
 
 
@@ -63,7 +63,6 @@ public class ViajeServiceImpl implements ViajeService {
             viajeDestino.setCiudaddestino(publicarViaje1.getCiudaddestino());
             viajeDestino.setDepartamentodestino(publicarViaje1.getDepartamentodestino());
 
-            viajeDestino.setPaisdestino(publicarViaje1.getDistritodestino());
 
             viajes.setViajeOrigen(viajeOrigen);
             viajes.setViajeDestino(viajeDestino);
