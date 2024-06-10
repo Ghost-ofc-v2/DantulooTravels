@@ -12,17 +12,14 @@ import java.time.LocalDateTime;
 public class PublicarViaje1 {
     private String departamentodestino;
     private String ciudaddestino;
-    private String provinciadestino;
     private String direcciondestino;
-    private String distritodestino;
+    private String paisdestino;
+
 
     private String departamentoorigen;
     private String ciudadorigen;
-    private String provinciaorigen;
     private String direccionorigen;
-    private String distritoorigen;
-
-
+    private String paisorigen;
 
 
 
