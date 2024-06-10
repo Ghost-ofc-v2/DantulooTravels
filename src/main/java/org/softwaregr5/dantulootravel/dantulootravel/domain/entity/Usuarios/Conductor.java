@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes.Viajes;
+
 
 import java.util.List;
 
@@ -32,10 +32,6 @@ public class Conductor{
     @JsonBackReference
     private Usuario usuario;
 
-
-    @OneToMany(mappedBy = "conductor")
-    @JsonBackReference
-    private List<Viajes> viaje;
 
 
 }
