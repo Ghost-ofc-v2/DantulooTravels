@@ -55,14 +55,14 @@ public class ViajeServiceImpl implements ViajeService {
             viajeOrigen.setCiudadorigen(publicarViaje1.getCiudadorigen());
             viajeOrigen.setDepartamentoorigen(publicarViaje1.getDepartamentoorigen());
             viajeOrigen.setPaisorigen(publicarViaje1.getDistritoorigen());
-            viajeOrigen.setProvinciaorigen(publicarViaje1.getProvinciaorigen());
+
 
 
             ViajeDestino viajeDestino = new ViajeDestino();
             viajeDestino.setDirecciondestino(publicarViaje1.getDirecciondestino());
             viajeDestino.setCiudaddestino(publicarViaje1.getCiudaddestino());
             viajeDestino.setDepartamentodestino(publicarViaje1.getDepartamentodestino());
-            viajeDestino.setProvinciadestino(publicarViaje1.getProvinciadestino());
+
             viajeDestino.setPaisdestino(publicarViaje1.getDistritodestino());
 
             viajes.setViajeOrigen(viajeOrigen);
