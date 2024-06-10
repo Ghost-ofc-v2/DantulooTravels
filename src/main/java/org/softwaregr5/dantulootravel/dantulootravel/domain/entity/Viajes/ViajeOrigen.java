@@ -18,9 +18,8 @@ public class ViajeOrigen {
 
     private String departamentoorigen;
     private String ciudadorigen;
-    private String provinciaorigen;
     private String direccionorigen;
-    private String distritoorigen;
+    private String paisorigen;
     private String latitudorigen;
     private String longitudorigen;
 
@@ -34,7 +33,7 @@ public class ViajeOrigen {
     public String toString() {
         return "ViajeOrigen{" +
                 "idviajeorigen=" + idviajeorigen +
-                ", distritoorigen='" + distritoorigen + '\'' +
+                ", paisorigen='" + paisorigen + '\'' +
                 ", latitudorigen=" + latitudorigen +
                 ", longitudorigen=" + longitudorigen +
                 // No incluir 'viaje' para evitar recursión
