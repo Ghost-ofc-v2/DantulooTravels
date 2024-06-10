@@ -36,6 +36,6 @@ public class ViajeOrigenImpl implements ViajeOrigenService {
 
     @Override
     public List<Viajes> buscarViajeOrigen(BuscarViajeOrigen buscarViajeOrigen) {
-        return viajeOrigenRepository.findViajesWithOrigenAndDestinoByCriteria(buscarViajeOrigen.getDistritoorigen(), buscarViajeOrigen.getDistritodestino(), buscarViajeOrigen.getFechaorigen());
+        return viajeOrigenRepository.findViajesWithOrigenAndDestinoByCriteria(buscarViajeOrigen.getCiudadorigen(), buscarViajeOrigen.getCiudaddestino(), buscarViajeOrigen.getFechaorigen());
     }
 }

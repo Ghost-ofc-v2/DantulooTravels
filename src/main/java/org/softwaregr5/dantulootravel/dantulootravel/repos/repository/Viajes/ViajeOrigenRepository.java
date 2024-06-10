@@ -14,10 +14,10 @@ public interface ViajeOrigenRepository extends JpaRepository<ViajeOrigen, Long> 
     @Query("SELECT v, vo, vd FROM Viajes v " +
             "JOIN FETCH v.viajeOrigen vo " +
             "JOIN FETCH v.viajeDestino vd " +
-            "WHERE vo.distritoorigen = :distritoOrigen " +
-            "AND vd.distritodestino = :distritoDestino " +
+            "WHERE vo.ciudadorigen = :ciudadOrigen " +
+            "AND vd.ciudaddestino = :ciudadDestino " +
             "AND FUNCTION('DATE', v.fechaHoraSalida) = :fecha")
-    List<Viajes> findViajesWithOrigenAndDestinoByCriteria(String distritoOrigen, String distritoDestino, LocalDate fecha);
+    List<Viajes> findViajesWithOrigenAndDestinoByCriteria(String ciudadOrigen, String ciudadDestino, LocalDate fecha);
 
 
 }

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 public class BuscarViajeOrigen {
 
-    private String distritoorigen;
-    private String distritodestino;
+    private String ciudadorigen;
+    private String ciudaddestino;
     private LocalDate fechaorigen;
 }
