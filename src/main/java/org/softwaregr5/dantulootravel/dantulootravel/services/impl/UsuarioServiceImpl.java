@@ -11,13 +11,12 @@ import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Rol;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Usuario;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.mappers.LoginRequest;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.mappers.LoginResponse;
+import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Usuarios.ConductorRepository;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Usuarios.UsuarioRepository;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.security.EncryptionUtil;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.security.JwtTokenUtil;
 import org.softwaregr5.dantulootravel.dantulootravel.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,14 +24,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -47,8 +43,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final AuthenticationManager authenticationManager;
     private final TemplateEngine templateEngine;
     private final JavaMailSender mailSender;
-
-
+    @Autowired
+    private ConductorRepository conductorRepository;
 
 
     @Override
@@ -166,5 +162,23 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
 
+    @Override
+    public Usuario buscarusuario(Long idusuario){
+        Usuario usuario = usuarioRepository.findById(idusuario)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + idusuario));
+
+        return usuario;
+    }
+
+    @Override
+    public Conductor buscarconductor(Long idConductor) {
+        return conductorRepository.findById(idConductor).orElseThrow(() -> new IllegalArgumentException("Conductor no encontrado"));
+    }
+
+    @Override
+    public Conductor buscarconductorPorUsuarioId(Long usuarioId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        return conductorRepository.findByUsuario(usuario).orElseThrow(() -> new IllegalArgumentException("Conductor no encontrado para el usuario con ID: " + usuarioId));
+    }
 
 }

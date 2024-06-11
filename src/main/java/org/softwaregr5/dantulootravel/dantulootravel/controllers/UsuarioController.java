@@ -6,8 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.EmailDTO.EmailDTO;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.usuarioDTO.CambioContrasena;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.usuarioDTO.DatosRegistroUsuario;
+import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Conductor;
+import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Usuario;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.mappers.LoginRequest;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.mappers.LoginResponse;
+import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Usuarios.ConductorRepository;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.security.JwtTokenUtil;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Usuarios.UsuarioRepository;
 import org.softwaregr5.dantulootravel.dantulootravel.services.UsuarioService;
@@ -18,9 +21,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/usuario")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class UsuarioController {
 
@@ -34,6 +39,8 @@ public class UsuarioController {
 
     @Autowired
     AuthenticationManager authenticationManager;
+    @Autowired
+    private ConductorRepository conductorRepository;
 
 
     @Autowired
@@ -98,6 +105,52 @@ public class UsuarioController {
             return ResponseEntity.ok("Contraseña Actualizada correctamente");
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/email")
+    public ResponseEntity<?> recuperaremail(@RequestParam("token") String token){
+        try{
+            if (!jwtTokenUtil.validateTokenEmail(token, jwtTokenUtil.getEmailFromToken(token))) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+            }
+            String email = jwtTokenUtil.getEmailFromToken(token);
+            return ResponseEntity.ok(email);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<?> recuperarUsuario(@PathVariable String email){
+        try {
+            Optional<Usuario> iduser = usuarioRepository.findByCorreo(email);
+
+            Usuario usuario = usuarioService.buscarusuario(iduser.get().getId_usuario());
+            return ResponseEntity.ok(usuario);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/conductor/{idConductor}")
+    public ResponseEntity<?> buscarConductor(@PathVariable Long idConductor) {
+        try {
+            Conductor conductor = usuarioService.buscarconductor(idConductor);
+            return ResponseEntity.ok(conductor);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/usuario/{usuarioId}/conductor")
+    public ResponseEntity<?> buscarConductorPorUsuarioId(@PathVariable Long usuarioId) {
+        try {
+            Conductor conductor = usuarioService.buscarconductorPorUsuarioId(usuarioId);
+            return ResponseEntity.ok(conductor);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

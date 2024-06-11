@@ -19,15 +19,7 @@ public class ReservaController {
     @Autowired
     private final ReservaService reservaService;
 
-    @PostMapping("/reservar-viaje")
-    public ResponseEntity<?> reserva(@RequestBody @Valid ReservarAsiento reservarAsiento) {
-        try {
-            String resp = reservaService.crearReserva(reservarAsiento);
-            return new ResponseEntity<>(resp, HttpStatus.CREATED);
-        }catch (RuntimeException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-    }
+
 
     @PutMapping("/{reservaId}/aceptar")
     public ResponseEntity<String> aceptarReserva(@PathVariable Long reservaId) {

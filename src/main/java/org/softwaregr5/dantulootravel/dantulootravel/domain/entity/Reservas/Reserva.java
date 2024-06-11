@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Pasajero;
-import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Viajes.Viajes;
+
 
 import java.util.Date;
 
@@ -25,8 +25,7 @@ public class Reserva {
     @JsonManagedReference
     private Pasajero pasajero;
 
-    @ManyToOne
-    private Viajes viajes;
+
 
     private Integer cantidadAsientos;
     private String estado;

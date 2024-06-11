@@ -8,7 +8,7 @@ import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Reservas.Rese
 import java.util.List;
 
 @Entity
-@Table(name = "Pasajero")
+@Table(name = "pasajero")
 @Getter
 @Setter
 @AllArgsConstructor

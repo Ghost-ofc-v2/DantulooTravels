@@ -2,6 +2,7 @@ package org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import jakarta.persistence.*;
@@ -28,6 +29,7 @@ public class Usuario  implements UserDetails {
     private Long id_usuario;
     private String contrasena;
     @Column(unique = true)
+    @Email
     private String correo;
     private String nombre;
     @Enumerated(EnumType.STRING)
