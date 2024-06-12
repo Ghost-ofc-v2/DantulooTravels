@@ -42,7 +42,7 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((it) ->
                         // don't authenticate this particular request
-                        it.requestMatchers("/api/usuario/**").permitAll()
+                        it.requestMatchers("/api/usuario/**", "/api/usuario/email/**", "/api/usuario/usuario//**").permitAll()
                                 // all other requests need to be authenticated
                                 .anyRequest().authenticated())
                 .exceptionHandling((it) ->

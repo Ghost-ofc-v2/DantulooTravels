@@ -164,6 +164,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario buscarusuario(Long idusuario){
+
         Usuario usuario = usuarioRepository.findById(idusuario)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + idusuario));
 

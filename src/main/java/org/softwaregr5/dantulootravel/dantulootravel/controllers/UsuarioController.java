@@ -108,8 +108,8 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/email")
-    public ResponseEntity<?> recuperaremail(@RequestParam("token") String token){
+    @GetMapping("/email/{token}")
+    public ResponseEntity<?> recuperaremail(@PathVariable("token") String token) {
         try{
             if (!jwtTokenUtil.validateTokenEmail(token, jwtTokenUtil.getEmailFromToken(token))) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
@@ -124,9 +124,13 @@ public class UsuarioController {
     @GetMapping("/{email}")
     public ResponseEntity<?> recuperarUsuario(@PathVariable String email){
         try {
-            Optional<Usuario> iduser = usuarioRepository.findByCorreo(email);
+            Optional<Usuario> usuarioOpt = usuarioRepository.findByCorreo(email);
+            if (usuarioOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
+            }
+            System.out.println(email);
+            Usuario usuario = usuarioService.buscarusuario(usuarioOpt.get().getId_usuario());
 
-            Usuario usuario = usuarioService.buscarusuario(iduser.get().getId_usuario());
             return ResponseEntity.ok(usuario);
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -136,6 +140,7 @@ public class UsuarioController {
     @GetMapping("/conductor/{idConductor}")
     public ResponseEntity<?> buscarConductor(@PathVariable Long idConductor) {
         try {
+            System.out.println(idConductor);
             Conductor conductor = usuarioService.buscarconductor(idConductor);
             return ResponseEntity.ok(conductor);
         } catch (IllegalArgumentException e) {
@@ -144,7 +149,7 @@ public class UsuarioController {
     }
 
 
-    @GetMapping("/usuario/{usuarioId}/conductor")
+    @GetMapping("/{usuarioId}/conductor")
     public ResponseEntity<?> buscarConductorPorUsuarioId(@PathVariable Long usuarioId) {
         try {
             Conductor conductor = usuarioService.buscarconductorPorUsuarioId(usuarioId);
