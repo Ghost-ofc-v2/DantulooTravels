@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.EmailDTO.EmailDTO;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.usuarioDTO.CambioContrasena;
+import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.usuarioDTO.ConductorDTO;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.DTO.usuarioDTO.DatosRegistroUsuario;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Conductor;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Usuario;
@@ -160,7 +161,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/conductor/guardar/{id}")
-    public ResponseEntity<?> actualizarConductor(@PathVariable Long id, @RequestBody Conductor conductor) {
+    public ResponseEntity<?> actualizarConductor(@PathVariable Long id, @RequestBody ConductorDTO conductor) {
         Optional<Conductor> conductorOpt = conductorRepository.findById(id);
         if (conductorOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Conductor no encontrado");
