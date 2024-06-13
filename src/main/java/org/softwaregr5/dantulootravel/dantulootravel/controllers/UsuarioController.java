@@ -159,4 +159,21 @@ public class UsuarioController {
         }
     }
 
+    @PutMapping("/conductor/guardar/{id}")
+    public ResponseEntity<?> actualizarConductor(@PathVariable Long id, @RequestBody Conductor conductor) {
+        Optional<Conductor> conductorOpt = conductorRepository.findById(id);
+        if (conductorOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Conductor no encontrado");
+        }
+
+        Conductor conductorExistente = conductorOpt.get();
+        conductorExistente.setMarcaAuto(conductor.getMarcaAuto());
+        conductorExistente.setModeloAuto(conductor.getModeloAuto());
+        conductorExistente.setPlacaAuto(conductor.getPlacaAuto());
+        conductorExistente.setColorAuto(conductor.getColorAuto());
+
+        conductorRepository.save(conductorExistente);
+        return ResponseEntity.ok("Conductor actualizado exitosamente");
+    }
+
 }
