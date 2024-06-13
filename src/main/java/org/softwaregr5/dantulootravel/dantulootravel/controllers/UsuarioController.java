@@ -12,6 +12,7 @@ import org.softwaregr5.dantulootravel.dantulootravel.domain.entity.Usuarios.Usua
 import org.softwaregr5.dantulootravel.dantulootravel.domain.mappers.LoginRequest;
 import org.softwaregr5.dantulootravel.dantulootravel.domain.mappers.LoginResponse;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Usuarios.ConductorRepository;
+import org.softwaregr5.dantulootravel.dantulootravel.repos.security.EncryptionUtil;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.security.JwtTokenUtil;
 import org.softwaregr5.dantulootravel.dantulootravel.repos.repository.Usuarios.UsuarioRepository;
 import org.softwaregr5.dantulootravel.dantulootravel.services.UsuarioService;
@@ -175,6 +176,25 @@ public class UsuarioController {
 
         conductorRepository.save(conductorExistente);
         return ResponseEntity.ok("Conductor actualizado exitosamente");
+    }
+
+
+    @GetMapping("/name")
+    public ResponseEntity<?> buscarNombre(@RequestHeader("Authorization") String authorizationHeader) {
+        try {
+            String jwtToken = authorizationHeader.substring(7);
+            String jwtToken2 = EncryptionUtil.decrypt(jwtToken);
+            String email = jwtTokenUtil.getEmailFromToken(jwtToken2);
+
+            if (!jwtTokenUtil.validateTokenEmail(jwtToken2, email)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+            }
+
+            String nombre = usuarioService.recuperarNombre(email);
+            return ResponseEntity.ok(nombre);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
 }

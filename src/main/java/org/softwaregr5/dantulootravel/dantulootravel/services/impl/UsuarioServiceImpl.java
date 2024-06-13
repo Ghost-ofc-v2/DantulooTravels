@@ -182,4 +182,15 @@ public class UsuarioServiceImpl implements UsuarioService {
         return conductorRepository.findByUsuario(usuario).orElseThrow(() -> new IllegalArgumentException("Conductor no encontrado para el usuario con ID: " + usuarioId));
     }
 
+    @Override
+    public String recuperarNombre(String email){
+        Usuario usuario = usuarioRepository.findByCorreo(email)
+                .orElseThrow(() -> new IllegalArgumentException("{\"success\": false, \"message\": \"Usuario no encontrado\"}"));
+
+        String nombre = usuario.getNombre();
+
+        return "{\"success\": true, \"nombre\": \""+nombre+"\"}";
+
+    }
+
 }

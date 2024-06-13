@@ -16,4 +16,5 @@ public interface UsuarioService {
     Usuario buscarusuario(Long idusuario);
     Conductor buscarconductor(Long idconductor);
     Conductor buscarconductorPorUsuarioId(Long usuarioId);
+    String recuperarNombre(String email);
 }
