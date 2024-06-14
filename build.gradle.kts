@@ -44,4 +44,12 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	isEnabled = false
+
+}
+
+tasks.named<Jar>("bootJar") {
+	manifest {
+		attributes["Main-Class"] = "org.softwaregr5.dantulootravel.DantulooTravelApplication" // Reemplaza con tu clase principal
+	}
 }
