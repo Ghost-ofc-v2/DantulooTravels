@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # O la rama que prefieras
+      - master  # O la rama que prefieras
 
 jobs:
   deploy:
@@ -35,7 +35,7 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
         source: "build/libs/*.jar"
-        target: "/home/ec2-user/your-app-name.jar"
+        target: "/home/ec2-user/app.jar"
 
     - name: Execute remote SSH command
       uses: appleboy/ssh-action@v0.1.2
@@ -44,5 +44,5 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
         script: |
-          sudo systemctl stop your-app
-          sudo systemctl start your-app
+          sudo systemctl stop app
+          sudo systemctl start app
